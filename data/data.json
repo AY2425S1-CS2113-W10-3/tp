@@ -4,36 +4,7 @@
     "programmeList": [
       {
         "programmeName": "Starter",
-        "dayList": [
-          {
-            "name": "ONE",
-            "exercises": [
-              {
-                "sets": 3,
-                "reps": 12,
-                "weight": 30,
-                "name": "Bench_Press"
-              },
-              {
-                "sets": 3,
-                "reps": 12,
-                "weight": 50,
-                "name": "Squat"
-              }
-            ]
-          },
-          {
-            "name": "TWO",
-            "exercises": [
-              {
-                "sets": 3,
-                "reps": 12,
-                "weight": 10,
-                "name": "Bicep_Curl"
-              }
-            ]
-          }
-        ]
+        "dayList": []
       }
     ]
   },

@@ -1,17 +1,16 @@
 package core;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonElement;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
-
 import programme.ProgrammeList;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-
-import com.google.gson.Gson;
 
 /**
  * Represents the storage system for saving and loading tasks.
@@ -25,16 +24,28 @@ public class Storage {
     }
 
     public JsonObject loadProgrammeList() {
-        return load().getAsJsonObject("programmeList");
+        JsonObject jsonObject = load();
+        if(jsonObject == null || !jsonObject.has("programmeList")) {
+            return new JsonObject();
+        }
+        return jsonObject.getAsJsonObject("programmeList");
     }
 
     public JsonObject loadHistory() {
-        return load().getAsJsonObject("history");
+        JsonObject jsonObject = load();
+        if(jsonObject == null || !jsonObject.has("history")) {
+            return new JsonObject();
+        }
+        return jsonObject.getAsJsonObject("history");
     }
 
     private JsonObject load() {
         try (FileReader reader = new FileReader(path)){
-            return JsonParser.parseReader(reader).getAsJsonObject();
+            JsonElement elememt = JsonParser.parseReader(reader);
+            if(elememt == null || elememt.isJsonNull()) {
+                return new JsonObject();
+            }
+            return elememt.getAsJsonObject();
         } catch(IOException e){
             throw new RuntimeException("Failed to load data due to: " + e.getMessage());
         }

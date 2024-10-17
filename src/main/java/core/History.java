@@ -49,7 +49,7 @@ public class History {
             return "No workout history available.";
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         // Iterate over the history HashMap
         for (LocalDateTime date : history.keySet()) {
