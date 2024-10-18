@@ -7,20 +7,21 @@ import programme.Day;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class History {
 
-    private final HashMap<LocalDateTime, Day> history;  // HashMap to store Day with its respective date
+    // LinkedHashMap to store Day with its respective date in the order of insertion
+    private final LinkedHashMap<LocalDateTime, Day> history;
 
     // Constructor
     public History() {
-        history = new HashMap<>();
+        history = new LinkedHashMap<>();  // Use LinkedHashMap instead of HashMap
     }
 
     // Logs a completed day into the history with a given date
     public void logDay(Day day, LocalDateTime date) {
-        history.put(date, day);  // Use HashMap to store or update the day with its date
+        history.put(date, day);  // This will overwrite if a day with the same date exists
     }
 
     // Converts the History object to a JSON string
@@ -54,10 +55,17 @@ public class History {
         // Iterate over the history HashMap
         for (LocalDateTime date : history.keySet()) {
             Day day = history.get(date);
-            historyString.append(String.format("Day: %s%nCompleted On:%s%n%n",day,date.format(formatter)));
+
+            // Adjust the format by removing the extra "Day:" text
+            historyString.append(day.toString());  // Use the Day class's toString directly
+
+            // Append the formatted date at the end
+            historyString.append(String.format("Completed On: %s%n%n", date.format(formatter)));
         }
 
         return historyString.toString();
     }
+
 }
+
 
