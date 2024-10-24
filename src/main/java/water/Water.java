@@ -24,5 +24,16 @@ public class Water {
         return waterList;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder output = new StringBuilder();
+
+        for (int i = 0; i < waterList.size(); i++) {
+            output.append(i+1).append(": ").append(waterList.get(i)).append("\n");
+        }
+
+        return output.toString();
+    }
+
 }
 

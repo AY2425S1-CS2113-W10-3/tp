@@ -1,22 +1,23 @@
-package command.meals;
+package command.water;
 
 import command.CommandResult;
 import history.History;
-import meal.MealList;
+import water.Water;
 
 import java.time.LocalDate;
 
-public class ViewMealCommand extends MealCommand {
+public class ViewWaterCommand extends WaterCommand {
     public static final String COMMAND_WORD = "view";
 
     protected final LocalDate date;
 
-    public ViewMealCommand(LocalDate date) {
+    public ViewWaterCommand(LocalDate date) {
         this.date = date;
     }
 
     public CommandResult execute(History history) {
-        MealList meals = getMealList(history);
-        return new CommandResult(meals.toString());
+        Water waterList = getWaterList(history);
+        return new CommandResult(waterList.toString());
     }
+
 }

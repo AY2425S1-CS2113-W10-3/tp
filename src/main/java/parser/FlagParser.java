@@ -1,5 +1,6 @@
 package parser;
 
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,10 +8,13 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static common.Utils.NULL_FLOAT;
 import static common.Utils.NULL_INTEGER;
-import static parser.ParserUtils.parseDate;
-import static parser.ParserUtils.parseInteger;
+import static parser.ParserUtils.parseFloat;
 import static parser.ParserUtils.parseIndex;
+import static parser.ParserUtils.parseInteger;
+import static parser.ParserUtils.parseDate;
+
 
 /*
     FlagParser simplifies parsing flagged argument strings
@@ -52,6 +56,9 @@ public class FlagParser {
         aliasMap.put("/mealName", "/n");
         aliasMap.put("/mealCalories", "/c");
         aliasMap.put("/mealIndex", "/m");
+
+        aliasMap.put("/waterAmount", "/l");
+        aliasMap.put("/waterIndex", "/w");
     }
 
     private void parse(String argumentString) {
@@ -131,6 +138,14 @@ public class FlagParser {
             return NULL_INTEGER;
         }
         return parseInteger(intString);
+    }
+
+    public float getFloatByFlag(String flag) {
+        String floatString = getStringByFlag(flag);
+        if (floatString == null) {
+            return NULL_FLOAT;
+        }
+        return parseFloat(floatString);
     }
 
     public LocalDate getDateByFlag(String flag){
