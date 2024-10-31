@@ -10,6 +10,7 @@ import parser.FlagParser;
 
 import java.time.LocalDate;
 
+import static parser.FlagDefinitions.*;
 import static parser.ParserUtils.splitArguments;
 
 public class MealCommandFactory {
@@ -33,11 +34,11 @@ public class MealCommandFactory {
     public Command prepareAddCommand(String argumentString) {
         FlagParser flagParser = new FlagParser(argumentString);
 
-        flagParser.validateRequiredFlags("/n", "/c");
+        flagParser.validateRequiredFlags(MEAL_NAME, MEAL_CALORIES);
 
-        String mealName = flagParser.getStringByFlag("/n");
-        int mealCalories = flagParser.getIntegerByFlag("/c");
-        LocalDate date = flagParser.getDateByFlag("/t");
+        String mealName = flagParser.getStringByFlag(MEAL_NAME);
+        int mealCalories = flagParser.getIntegerByFlag(MEAL_CALORIES);
+        LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
 
         Meal mealToAdd = new Meal(mealName, mealCalories);
 
@@ -47,10 +48,10 @@ public class MealCommandFactory {
     public Command prepareDeleteCommand(String argumentString) {
         FlagParser flagParser = new FlagParser(argumentString);
 
-        flagParser.validateRequiredFlags("/m");
+        flagParser.validateRequiredFlags(MEAL_INDEX);
 
-        int mealIndexToDelete = flagParser.getIndexByFlag("/m");
-        LocalDate date = flagParser.getDateByFlag("/t");
+        int mealIndexToDelete = flagParser.getIndexByFlag(MEAL_INDEX);
+        LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
 
         return new DeleteMealCommand(mealIndexToDelete, date);
     }
@@ -58,9 +59,9 @@ public class MealCommandFactory {
     public Command prepareViewCommand(String argumentString) {
         FlagParser flagParser = new FlagParser(argumentString);
 
-        flagParser.validateRequiredFlags("/t");
+        flagParser.validateRequiredFlags(DATE_FLAG);
 
-        LocalDate date = flagParser.getDateByFlag("/t");
+        LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
 
         return new ViewMealCommand(date);
     }

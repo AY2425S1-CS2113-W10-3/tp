@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static parser.FlagDefinitions.*;
 import static parser.ParserUtils.parseIndex;
 import static parser.ParserUtils.parseInteger;
 import static parser.ParserUtils.parseFloat;
@@ -40,31 +41,31 @@ public class FlagParser {
     }
 
     private void initializeAliasMap() {
-        aliasMap.put("/p", "/p");
-        aliasMap.put("/progIndex", "/p");
-        aliasMap.put("/programme", "/p");
+        aliasMap.put(PROGRAMME_FLAG, PROGRAMME_FLAG);
+        aliasMap.put("/progIndex", PROGRAMME_FLAG);
+        aliasMap.put("/programme", PROGRAMME_FLAG);
 
-        aliasMap.put("/day", "/d");
-        aliasMap.put("/date", "/t");
+        aliasMap.put("/day", DAY_FLAG);
+        aliasMap.put("/date", DATE_FLAG);
 
-        aliasMap.put("/name", "/n");
-        aliasMap.put("/exercise", "/e");
-        aliasMap.put("/set", "/s");
-        aliasMap.put("/rep", "/r");
-        aliasMap.put("/weight", "/w");
+        aliasMap.put("/name", NAME_FLAG);
+        aliasMap.put("/exercise", EXERCISE_FLAG);
+        aliasMap.put("/set", SETS_FLAG);
+        aliasMap.put("/rep", REPS_FLAG);
+        aliasMap.put("/weight", WEIGHT_FLAG);
 
-        aliasMap.put("/createEx", "/a");
-        aliasMap.put("/updateEx", "/u");
-        aliasMap.put("/removeEx", "/x");
-        aliasMap.put("/createDay", "/ad");
-        aliasMap.put("/removeDay", "/xd");
+        aliasMap.put("/createEx", ADD_EXERCISE_FLAG);
+        aliasMap.put("/updateEx", UPDATE_EXERCISE_FLAG);
+        aliasMap.put("/removeEx", REMOVE_EXERCISE_FLAG);
+        aliasMap.put("/createDay", ADD_DAY_INDEX);
+        aliasMap.put("/removeDay", REMOVE_DAY_INDEX);
 
-        aliasMap.put("/mealName", "/n");
-        aliasMap.put("/mealCalories", "/c");
-        aliasMap.put("/mealIndex", "/m");
+        aliasMap.put("/mealName", NAME_FLAG);
+        aliasMap.put("/mealCalories", MEAL_CALORIES);
+        aliasMap.put("/mealIndex", MEAL_INDEX);
 
-        aliasMap.put("/waterAmount", "/v");
-        aliasMap.put("/waterIndex", "/w");
+        aliasMap.put("/waterAmount", VOLUME_FLAG);
+        aliasMap.put("/waterIndex", WEIGHT_FLAG);
     }
 
     private void parse(String argumentString) {

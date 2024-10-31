@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static parser.FlagDefinitions.*;
 import static parser.ParserUtils.parseIndex;
 import static parser.ParserUtils.splitArguments;
 
@@ -62,80 +63,80 @@ public class ProgCommandFactory {
 
     private Command prepareEditCommand(String argumentString) {
         assert argumentString != null : "Argument string must not be null";
-        FlagParser flagParser = new FlagParser(argumentString, "/n", "/r","/s","/w","/e","/c");
-        if (flagParser.hasFlag("/u")) {
+        FlagParser flagParser = new FlagParser(argumentString, NAME_FLAG, REPS_FLAG,SETS_FLAG,WEIGHT_FLAG,EXERCISE_FLAG,MEAL_CALORIES);
+        if (flagParser.hasFlag(UPDATE_EXERCISE_FLAG)) {
             return prepareEditExerciseCommand(flagParser);
         }
-        if (flagParser.hasFlag("/a")) {
+        if (flagParser.hasFlag(ADD_EXERCISE_FLAG)) {
             return prepareCreateExerciseCommand(flagParser);
         }
-        if (flagParser.hasFlag("/x")) {
+        if (flagParser.hasFlag(REMOVE_EXERCISE_FLAG)) {
             return prepareDeleteExerciseCommand(flagParser);
         }
-        if (flagParser.hasFlag("/ad")) {
+        if (flagParser.hasFlag(ADD_DAY_INDEX)) {
             return prepareCreateDayCommand(flagParser);
         }
-        if (flagParser.hasFlag("/xd")) {
+        if (flagParser.hasFlag(REMOVE_DAY_INDEX)) {
             return prepareDeleteDayCommand(flagParser);
         }
         return new InvalidCommand();
     }
 
     private EditExerciseCommand prepareEditExerciseCommand(FlagParser flagParser) {
-        flagParser.validateRequiredFlags("/d");
-        String editString = flagParser.getStringByFlag("/u");
+        flagParser.validateRequiredFlags(DAY_FLAG);
+        String editString = flagParser.getStringByFlag(UPDATE_EXERCISE_FLAG);
 
         String[] editParts = splitArguments(editString);
         int exerciseIndex = parseIndex(editParts[0]);
         String exerciseString = editParts[1];
 
         return new EditExerciseCommand(
-            flagParser.getIndexByFlag("/p"),
-            flagParser.getIndexByFlag("/d"),
+            flagParser.getIndexByFlag(PROGRAMME_FLAG),
+            flagParser.getIndexByFlag(DAY_FLAG),
             exerciseIndex,
             parseExercise(exerciseString)
         );
     }
 
     private CreateExerciseCommand prepareCreateExerciseCommand(FlagParser flagParser) {
-        flagParser.validateRequiredFlags("/d");
-        String exerciseString = flagParser.getStringByFlag("/a");
+        flagParser.validateRequiredFlags(DAY_FLAG);
+        String exerciseString = flagParser.getStringByFlag(ADD_EXERCISE_FLAG);
         return new CreateExerciseCommand(
-            flagParser.getIndexByFlag("/p"),
-            flagParser.getIndexByFlag("/d"),
+            flagParser.getIndexByFlag(PROGRAMME_FLAG),
+            flagParser.getIndexByFlag(DAY_FLAG),
             parseExercise(exerciseString)
         );
     }
 
     private DeleteExerciseCommand prepareDeleteExerciseCommand(FlagParser flagParser) {
-        flagParser.validateRequiredFlags("/d", "/x");
+        flagParser.validateRequiredFlags(DAY_FLAG, REMOVE_EXERCISE_FLAG);
         return new DeleteExerciseCommand(
-                flagParser.getIndexByFlag("/p"),
-                flagParser.getIndexByFlag("/d"),
-                flagParser.getIndexByFlag("/x")
+                flagParser.getIndexByFlag(PROGRAMME_FLAG),
+                flagParser.getIndexByFlag(DAY_FLAG),
+                flagParser.getIndexByFlag(REMOVE_EXERCISE_FLAG)
         );
     }
 
     private CreateDayCommand prepareCreateDayCommand(FlagParser flagParser) {
-        String dayString = flagParser.getStringByFlag("/ad");
+        String dayString = flagParser.getStringByFlag(ADD_DAY_INDEX);
         return new CreateDayCommand(
-                flagParser.getIndexByFlag("/p"),
+                flagParser.getIndexByFlag(PROGRAMME_FLAG),
                 parseDay(dayString)
         );
     }
 
     private DeleteDayCommand prepareDeleteDayCommand(FlagParser flagParser) {
-        flagParser.validateRequiredFlags("/xd");
+        flagParser.validateRequiredFlags(REMOVE_DAY_INDEX);
         return new DeleteDayCommand(
-                flagParser.getIndexByFlag("/p"),
-                flagParser.getIndexByFlag("/xd")
+                flagParser.getIndexByFlag(PROGRAMME_FLAG),
+                flagParser.getIndexByFlag(REMOVE_DAY_INDEX)
         );
     }
     private Command prepareCreateCommand(String argumentString) {
         assert argumentString != null : "Argument string must not be null";
 
         ArrayList<Day> days = new ArrayList<>();
-        String[] progParts = argumentString.split("/d");
+        String[] progParts = argumentString.split(DAY_FLAG);
         String progName = progParts[0].trim();
         if (progName.isEmpty()) {
             throw new IllegalArgumentException("Programme name cannot be empty. Please enter a name.");
@@ -181,11 +182,11 @@ public class ProgCommandFactory {
     private Command prepareLogCommand(String argumentString) {
         FlagParser flagParser = new FlagParser(argumentString);
 
-        flagParser.validateRequiredFlags("/d");
+        flagParser.validateRequiredFlags(DAY_FLAG);
 
-        LocalDate date = flagParser.getDateByFlag("/t");
-        int progIndex = flagParser.getIndexByFlag("/p");
-        int dayIndex = flagParser.getIndexByFlag("/d");
+        LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
+        int progIndex = flagParser.getIndexByFlag(PROGRAMME_FLAG);
+        int dayIndex = flagParser.getIndexByFlag(DAY_FLAG);
 
         logger.log(Level.INFO, "LogCommand prepared with Date: {0}, Programme index: {1}, Day index: {2}",
                 new Object[]{progIndex, dayIndex, date});
@@ -196,7 +197,7 @@ public class ProgCommandFactory {
     private  Day parseDay(String dayString) {
         assert dayString != null : "Day string must not be null";
 
-        String[] dayParts  = dayString.split("/e");
+        String[] dayParts  = dayString.split(EXERCISE_FLAG);
         String dayName = dayParts[0].trim();
         if (dayName.isEmpty()) {
             throw new IllegalArgumentException("Day name cannot be empty. Please enter a valid day name.");
@@ -219,11 +220,11 @@ public class ProgCommandFactory {
 
         FlagParser flagParser = new FlagParser(argumentString);
 
-        String name = flagParser.getStringByFlag("/n");
-        int sets = flagParser.getIntegerByFlag("/s");
-        int reps = flagParser.getIntegerByFlag("/r");
-        int weight = flagParser.getIntegerByFlag("/w");
-        int calories = flagParser.getIntegerByFlag("/c");
+        String name = flagParser.getStringByFlag(NAME_FLAG);
+        int sets = flagParser.getIntegerByFlag(SETS_FLAG);
+        int reps = flagParser.getIntegerByFlag(REPS_FLAG);
+        int weight = flagParser.getIntegerByFlag(WEIGHT_FLAG);
+        int calories = flagParser.getIntegerByFlag(MEAL_CALORIES);
 
         logger.log(Level.INFO, "Parsed exercise successfully with name: {0}, set: {1}, rep: {2}" +
                 " weight: {3}", new Object[]{name, sets, reps, weight});

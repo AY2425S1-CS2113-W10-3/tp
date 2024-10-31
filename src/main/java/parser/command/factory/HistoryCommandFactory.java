@@ -11,6 +11,7 @@ import parser.FlagParser;
 
 import java.time.LocalDate;
 
+import static parser.FlagDefinitions.EXERCISE_FLAG;
 import static parser.ParserUtils.parseDate;
 import static parser.ParserUtils.splitArguments;
 
@@ -42,9 +43,9 @@ public class HistoryCommandFactory {
 
     private Command prepareViewPersonalBestCommand(String argumentString) {
         FlagParser flagParser = new FlagParser(argumentString);
-        flagParser.validateRequiredFlags("/e");
+        flagParser.validateRequiredFlags(EXERCISE_FLAG);
 
-        String exerciseName = flagParser.getStringByFlag("/e");
+        String exerciseName = flagParser.getStringByFlag(EXERCISE_FLAG);
 
         return new ViewPersonalBestCommand(exerciseName);
     }
