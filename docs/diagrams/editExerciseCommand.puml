@@ -1,37 +1,35 @@
 @startuml
-box "Logic" #c3c3ff
-participant "UpdateExerciseCommand" as UpdateExerciseCommand #cc88cc
-end box
+participant ":EditExerciseCommand" as AddExerciseCommand #cc88cc
+participant ":ProgrammeList" as ProgrammeList #ffbb77
+participant ":Programme" as Programme #ffbb77
+participant ":Day" as Day #ffbb77
+participant ":Exercise" as Exercise #ffbb77
 
-box "Model" #ffb3b3
-participant "ProgrammeList" as ProgrammeList #ffbb77
-participant "Programme" as Programme #ffbb77
-participant "Day" as Day #ffbb77
-participant "Exercise" as Exercise #ffbb77
-end box
 
-UpdateExerciseCommand -> ProgrammeList : retrieve Programme
-activate UpdateExerciseCommand
+
+-> AddExerciseCommand : execute()
+activate AddExerciseCommand
+
+AddExerciseCommand -> ProgrammeList : getProgramme(programmeIndex)
 activate ProgrammeList
+ProgrammeList --> AddExerciseCommand : selected Programme
+deactivate ProgrammeList
 
-ProgrammeList -> Programme : locate specific Day
+AddExerciseCommand -> Programme : getDay(dayIndex)
 activate Programme
-
-Programme -> Day : find Exercise by ID
-activate Day
-
-Day -> Exercise : update Exercise details
-activate Exercise
-
-Exercise --> Day : updated Exercise
-deactivate Exercise
-
-Day --> Programme : updated Exercise
-deactivate Day
-
-Programme --> ProgrammeList : updated Exercise
+Programme --> AddExerciseCommand : selected Day
 deactivate Programme
 
-ProgrammeList --> UpdateExerciseCommand : updated Exercise
-deactivate ProgrammeList
+AddExerciseCommand -> Day: getExercise(exerciseIndex)
+activate Day
+Day --> AddExerciseCommand: selected Exercise
+deactivate Day
+
+AddExerciseCommand -> Exercise: updateExercise(update)
+activate Exercise
+AddExerciseCommand <-- Exercise: updated Exercise
+deactivate Exercise
+
+<-- AddExerciseCommand
+deactivate AddExerciseCommand
 @enduml

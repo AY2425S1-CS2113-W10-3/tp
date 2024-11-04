@@ -15,17 +15,15 @@ class ExerciseTest {
 
     @Test
     void testUpdateExerciseAllFieldsNonNull() {
-        Exercise updateExercise = new Exercise(4, 12, 60, 200,"Squat");
+        ExerciseUpdate update = new ExerciseUpdate(4, 12, 60, 200,"Squat");
         //TODO: use exercise equals() to test
-        exercise.updateExercise(updateExercise);
+        exercise.updateExercise(update);
     }
 
     @Test
     void testUpdateExerciseOnlySomeFieldsNonNull() {
-        Exercise updateExercise = new Exercise(-1, 12, 40, -1,"");
+        ExerciseUpdate update = new ExerciseUpdate(-1, 12, 40, -1,"");
         //TODO: use exercise equals() to test
-        exercise.updateExercise(updateExercise);
+        exercise.updateExercise(update);
     }
 }
-
-

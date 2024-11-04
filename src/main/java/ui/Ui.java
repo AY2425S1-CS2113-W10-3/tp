@@ -1,3 +1,4 @@
+// @@author andreusxcarvalho
 package ui;
 
 import command.CommandResult;
@@ -18,14 +19,14 @@ public class Ui {
 
     private static final String GREETING = "Hello! I'm...";
     private static final String LOGO = """
-                  ____         __  __ ____            _     _      \n
-                 |  _ \\       / _|/ _|  _ \\          | |   | |     \n
-                 | |_) |_   _| |_| |_| |_) |_   _  __| | __| |_   _\n
-                 |  _ <| | | |  _|  _|  _ <| | | |/ _` |/ _` | | | |
-                 | |_) | |_| | | | | | |_) | |_| | (_| | (_| | |_| |
-                 |____/ \\__,_|_| |_| |____/ \\__,_|\\__,_|\\__,_|\\__, |
-                                                               __/ |
-                                                              |___/    \n
+             ____         __  __ ____            _     _      \s
+            |  _ \\       / _|/ _|  _ \\          | |   | |     \s
+            | |_) |_   _| |_| |_| |_) |_   _  __| | __| |_   _\s
+            |  _ <| | | |  _|  _|  _ <| | | |/ _` |/ _` | | | |
+            | |_) | |_| | | | | | |_) | |_| | (_| | (_| | |_| |
+            |____/ \\__,_|_| |_| |____/ \\__,_|\\__,_|\\__,_|\\__, |
+                                                          __/ |
+                                                         |___/\s
             """;
 
     private static final String PROMPT = "What can I do for you?";
@@ -35,6 +36,7 @@ public class Ui {
     private final Scanner in;
     private final PrintStream out;
 
+
     /**
      * Constructs an Ui object, initializing the input and output streams.
      */
@@ -42,6 +44,7 @@ public class Ui {
         in = new Scanner(System.in);
         out = new PrintStream(System.out);
     }
+
 
     /**
      * Reads a command input from the user.
@@ -52,6 +55,7 @@ public class Ui {
         return in.nextLine();
     }
 
+
     /**
      * Displays a line for visual separation in the output.
      */
@@ -59,16 +63,7 @@ public class Ui {
         out.println(LINE_CHAR.repeat(LINE_LENGTH));
     }
 
-    /**
-     * Displays an error message to the user.
-     *
-     * @param e the exception to be displayed
-     */
-    public void showError(Exception e) {
-        showLine();
-        out.println(ERROR_HEADER + e.getMessage());
-        showLine();
-    }
+
 
     /**
      * Displays a message to the user.
@@ -78,13 +73,32 @@ public class Ui {
     public void showMessage(String msg) {
         showLine();
         String strippedMsg = msg.trim();
-        out.println(strippedMsg);
+        String formattedMsg = strippedMsg.replace("_", " ");
+        out.println(formattedMsg);
         showLine();
     }
+
+
+    /**
+     * Displays an error message to the user.
+     *
+     * @param e the exception to be displayed
+     */
+    public void showMessage(Exception e) {
+        showMessage(ERROR_HEADER + e.getMessage());
+    }
+
+    /**
+     * Displays the success/failure message of a Command to the user.
+     *
+     * @param result the CommandResult to be displayed
+     */
+
 
     public void showMessage(CommandResult result){
         showMessage(result.getMessage());
     }
+
 
     /**
      * Displays a welcome message to the user.
@@ -95,11 +109,11 @@ public class Ui {
         out.println(PROMPT);
     }
 
+
     /**
      * Displays a farewell message to the user.
      */
     public void showFarewell() {
         out.println(FAREWELL);
     }
-
 }

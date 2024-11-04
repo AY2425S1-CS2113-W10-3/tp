@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileManagerTest {
     private FileManager fileManager;
-    private final String testFilePath = "./src/test/resrouces/test_data.json";
+    private final String testFilePath = "./src/test/resources/test_data.json";
 
     @BeforeEach
     public void setUp() {
@@ -47,7 +47,7 @@ public class FileManagerTest {
     public void testLoadProgrammeList_noProgrammeListKey() throws IOException {
         createTestFile("{}");
         JsonObject result = fileManager.loadProgrammeList();
-        assertTrue(result.size() == 0, "Programme list should be empty when no 'programmeList' key is present.");
+        assertEquals(0, result.size(), "Programme list should be empty when no 'programmeList' key is present.");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class FileManagerTest {
     public void testLoadHistory_noHistoryKey() throws IOException {
         createTestFile("{}");
         JsonObject result = fileManager.loadHistory();
-        assertTrue(result.size() == 0, "History should be empty when no 'history' key is present.");
+        assertEquals(0, result.size(), "History should be empty when no 'history' key is present.");
     }
 
     @Test

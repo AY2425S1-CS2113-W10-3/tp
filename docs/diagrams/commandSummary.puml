@@ -1,0 +1,52 @@
+@startuml
+
+abstract class Command {
+    + execute(programmes: ProgrammeList, history: History): CommandResult
+    + equals(other: Object): boolean
+}
+
+class ExitCommand {
+}
+
+class InvalidCommand {
+}
+
+class CommandResult {
+    - message: String
+    + CommandResult(message: String)
+    + getMessage(): String
+    + equals(other: Object): boolean
+}
+
+abstract class ProgrammeCommand {
+    # programmeIndex: int
+    # dayIndex: int
+    + equals(other: Object): boolean
+}
+
+abstract class EditCommand {
+    # exerciseIndex: int
+    + execute(programmes: ProgrammeList): CommandResult
+}
+
+abstract class WaterCommand {
+    # date: LocalDate
+}
+
+abstract class MealCommand {
+    # date: LocalDate
+}
+
+abstract class HistoryCommand {
+}
+
+Command <|-- ProgrammeCommand
+Command <|-- ExitCommand
+Command <|-- InvalidCommand
+Command <|-- WaterCommand
+Command <|-- MealCommand
+Command <|-- HistoryCommand
+ProgrammeCommand <|-- EditCommand
+Command ..> CommandResult
+
+@enduml

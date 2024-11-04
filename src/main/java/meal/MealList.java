@@ -1,3 +1,5 @@
+// @@author Atulteja
+
 package meal;
 
 import java.util.ArrayList;
@@ -5,8 +7,11 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MealList {
 
+/**
+ * Represents a list of meals, providing functionality to add, delete, and retrieve meals.
+ */
+public class MealList {
     private static final Logger logger = Logger.getLogger(MealList.class.getName());
     private ArrayList<Meal> meals;
 
@@ -23,12 +28,27 @@ public class MealList {
         return meals.size();
     }
 
+    /**
+     * Adds a meal to the list.
+     *
+     * @param meal the meal to add to the list
+     * @throws AssertionError if the meal is null
+     */
     public void addMeal(Meal meal) {
         assert meal != null : "Meal cannot be null";
+
+
         meals.add(meal);
         logger.log(Level.INFO, "Added meal: {0}. Current list: {1}", new Object[]{meal, meals});
     }
 
+    /**
+     * Deletes a meal from the list at the specified index.
+     *
+     * @param index the index of the meal to delete
+     * @return the meal that was deleted
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public Meal deleteMeal(int index) {
         if (index < 0 || index >= meals.size()) {
             logger.log(Level.WARNING, "Invalid index for deletion: {0}", index);
@@ -47,6 +67,12 @@ public class MealList {
         return meals;
     }
 
+    /**
+     * Overrides the toString to returns a string representation of the meal list.
+     * Each meal is represented by its index and details on a new line.
+     *
+     * @return a string representation of the meal list
+     */
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();

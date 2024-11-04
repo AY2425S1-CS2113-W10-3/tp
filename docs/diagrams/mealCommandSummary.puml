@@ -1,0 +1,26 @@
+@startuml
+abstract class MealCommand {
+    # date: LocalDate
+    + execute(ProgrammeList, History): CommandResult
+}
+
+class AddMealCommand {
+    - mealName: String
+    - calories: int
+    + execute(ProgrammeList, History): CommandResult
+}
+
+class DeleteMealCommand {
+    - indexMealToDelete: int
+    + execute(ProgrammeList, History): CommandResult
+}
+
+class ViewMealCommand {
+    + execute(ProgrammeList, History): CommandResult
+}
+
+MealCommand <|-- AddMealCommand
+MealCommand <|-- DeleteMealCommand
+MealCommand <|-- ViewMealCommand
+
+@enduml

@@ -12,12 +12,14 @@
                 "sets": 3,
                 "reps": 12,
                 "weight": 30,
+                "calories": 200,
                 "name": "Bench_Press"
               },
               {
                 "sets": 3,
                 "reps": 12,
                 "weight": 50,
+                "calories": 200,
                 "name": "Squat"
               }
             ]
@@ -29,6 +31,7 @@
                 "sets": 3,
                 "reps": 12,
                 "weight": 10,
+                "calories": 100,
                 "name": "Bicep_Curl"
               }
             ]
@@ -46,12 +49,14 @@
             "sets": 3,
             "reps": 12,
             "weight": 30,
+            "calories": 0,
             "name": "Bench_Press"
           },
           {
             "sets": 3,
             "reps": 12,
             "weight": 50,
+            "calories": 0,
             "name": "Squat"
           }
         ]
@@ -78,7 +83,60 @@
             "sets": 3,
             "reps": 12,
             "weight": 10,
+            "calories": 0,
             "name": "Bicep_Curl"
+          }
+        ]
+      },
+      "mealList": {
+        "meals": []
+      },
+      "water": {
+        "waterList": []
+      }
+    },
+    "30-10-2024": {
+      "day": {
+        "name": "Empty Day",
+        "exercises": []
+      },
+      "mealList": {
+        "meals": [
+          {
+            "calories": 250,
+            "name": "chicken"
+          },
+          {
+            "calories": 1000,
+            "name": "gulab jamun"
+          },
+          {
+            "calories": 250,
+            "name": "chicken"
+          }
+        ]
+      },
+      "water": {
+        "waterList": []
+      }
+    },
+    "02-11-2024": {
+      "day": {
+        "name": "ONE",
+        "exercises": [
+          {
+            "sets": 3,
+            "reps": 12,
+            "weight": 30,
+            "calories": 200,
+            "name": "Bench_Press"
+          },
+          {
+            "sets": 3,
+            "reps": 12,
+            "weight": 50,
+            "calories": 200,
+            "name": "Squat"
           }
         ]
       },

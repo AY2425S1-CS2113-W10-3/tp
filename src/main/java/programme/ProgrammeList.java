@@ -1,3 +1,5 @@
+// @@author Atulteja
+
 package programme;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class ProgrammeList {
 
         if (index < 0 || index >= programmeList.size()) {
             logger.log(Level.WARNING, "Invalid index: {0} for getProgramme()", index);
-            throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for programme list.");
+            throw new IndexOutOfBoundsException("Index " + index + 1 + " is out of bounds for programme list.");
         }
 
         logger.log(Level.INFO, "Retrieving programme at index {0}: {1}", new Object[]{index, programmeList.get(index)});
@@ -75,64 +77,20 @@ public class ProgrammeList {
         return activeProgramme;
     }
 
-    public Day getDay(int progIndex, int dayIndex) {
-        if (progIndex == NULL_INTEGER){
-            progIndex = currentActiveProgramme;
-        }
-
-        if (progIndex < 0 || progIndex >= programmeList.size()) {
-            logger.log(Level.WARNING, "Invalid programme index: {0} for getDay()", progIndex);
-            throw new IndexOutOfBoundsException("Programme index " + progIndex + " is out of bounds.");
-        }
-
-        Programme progContent = programmeList.get(progIndex);
-        Day day = progContent.getDay(dayIndex);
-        logger.log(Level.INFO, "Retrieved day from programme index {0}, day index {1}: {2}",
-                new Object[]{progIndex, dayIndex, day});
-
-        return day;
-    }
-
-    public Day deleteDay(int progIndex, int dayIndex) {
-        if (progIndex == NULL_INTEGER){
-            progIndex = currentActiveProgramme;
-        }
-
-        if (progIndex < 0 || progIndex >= programmeList.size()) {
-            logger.log(Level.WARNING, "Invalid programme index: {0} for deleteDay()", progIndex);
-            throw new IndexOutOfBoundsException("Programme index " + progIndex + " is out of bounds.");
-        }
-        Day deletedDay = programmeList.get(progIndex).deleteDay(dayIndex);
-        logger.log(Level.INFO, "Deleted day from programme index {0}, day index {1}: {2}",
-                new Object[]{progIndex, dayIndex, deletedDay});
-        return deletedDay;
-    }
-
-    public void insertDay(int progIndex, Day day){
-        if (progIndex == NULL_INTEGER){
-            progIndex = currentActiveProgramme;
-        }
-
-        if (progIndex < 0 || progIndex >= programmeList.size()) {
-            logger.log(Level.WARNING, "Invalid programme index: {0} for insertDay()", progIndex);
-            throw new IndexOutOfBoundsException("Programme index " + progIndex + " is out of bounds.");
-        }
-
-        assert day != null : "Day to insert cannot be null";
-
-        programmeList.get(progIndex).insertDay(day);
-        logger.log(Level.INFO, "Inserted day into programme index {0}: {1}", new Object[]{progIndex, day});
-    }
-
     @Override
     public String toString() {
+        if (programmeList.isEmpty()){
+            return "No programmes found.";
+        }
+
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < programmeList.size(); i++) {
             Programme programme = programmeList.get(i);
+            str.append(i + 1).append(". ").append(programme.getProgrammeName());
             if (i == currentActiveProgramme) {
-                str.append("*Active* ");
+                str.append(" -- Active");
             }
-            str.append(programme).append("\n");
+            str.append("\n");
         }
         return str.toString();
     }

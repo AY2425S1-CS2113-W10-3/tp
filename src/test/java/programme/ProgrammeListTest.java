@@ -85,31 +85,6 @@ public class ProgrammeListTest {
         assertEquals(mockProgramme2, activeProgramme);
     }
 
-    @Test
-    void testGetDay() {
-        programmeList.startProgramme(0);
-
-        Day retrievedDay = programmeList.getDay(0, 0);
-
-        assertEquals(mockDay1, retrievedDay);
-    }
-
-    @Test
-    void testDeleteDay() {
-        Day deletedDay = programmeList.deleteDay(0, 0);
-
-        assertEquals(mockDay1, deletedDay);
-    }
-
-    @Test
-    void testInsertDay() {
-        programmeList.insertDay(0, mockDay2);
-
-        when(mockProgramme1.getDay(1)).thenReturn(mockDay2);
-        assertEquals(mockDay2, programmeList.getDay(0, 1));
-    }
-
-    @Test
     void testToString() {
         // Stub the toString() method of the mock programmes
         when(mockProgramme1.toString()).thenReturn("Mocked Programme 1");

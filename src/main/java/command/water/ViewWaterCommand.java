@@ -1,6 +1,8 @@
+//@@author Bev-Low
 package command.water;
 
 import command.CommandResult;
+import common.Utils;
 import history.DailyRecord;
 import history.History;
 import water.Water;
@@ -20,11 +22,13 @@ public class ViewWaterCommand extends WaterCommand {
     }
 
     public CommandResult execute(History history) {
+        String formattedDate = Utils.formatDate(date);
+
         DailyRecord dailyRecord = history.getRecordByDate(date);
         assert dailyRecord != null : "Daily record not found";
-        Water water = dailyRecord.getWater();
+        Water water = dailyRecord.getWaterFromRecord();
 
         logger.log(Level.INFO, "Retrieved Water record for date: {0}, Water: {1}", new Object[]{date, water});
-        return new CommandResult(water.toString());
+        return new CommandResult("Water intake for " + formattedDate +  ": \n\n" + water.toString());
     }
 }

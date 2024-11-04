@@ -1,3 +1,5 @@
+// @@author Atulteja
+
 package programme;
 
 import java.util.ArrayList;
@@ -18,6 +20,10 @@ public class Programme {
         this.dayList = dayList;
 
         logger.log(Level.INFO, "Programme created: {0}", this);
+    }
+
+    public String getProgrammeName() {
+        return programmeName;
     }
 
     public Day getDay(int index){

@@ -1,3 +1,4 @@
+// @@author Bev-Low
 package parser.command.factory;
 
 import command.Command;
@@ -9,7 +10,9 @@ import parser.FlagParser;
 
 import java.time.LocalDate;
 
+
 import static parser.FlagDefinitions.*;
+import static parser.ParserUtils.parseDate;
 import static parser.ParserUtils.splitArguments;
 
 public class WaterCommandFactory {
@@ -52,13 +55,12 @@ public class WaterCommandFactory {
         return new DeleteWaterCommand(waterIndexToDelete, date);
     }
 
-    public Command prepareViewCommand(String argumentString) {
-        FlagParser flagParser = new FlagParser(argumentString);
+public Command prepareViewCommand(String argumentString) {
+    FlagParser flagParser = new FlagParser(argumentString);
+    flagParser.validateRequiredFlags(DATE_FLAG);
 
-        flagParser.validateRequiredFlags(DATE_FLAG);
+    LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
 
-        LocalDate date = flagParser.getDateByFlag(DATE_FLAG);
-
-        return new ViewWaterCommand(date);
-    }
+    return new ViewWaterCommand(date);
+  }
 }

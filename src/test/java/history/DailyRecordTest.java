@@ -11,11 +11,13 @@ import water.Water;
 
 import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.doReturn;
@@ -48,16 +50,14 @@ public class DailyRecordTest {
     @Test
     public void testConstructor_default() {
         dailyRecord = new DailyRecord();
-        assertNotNull(dailyRecord.getDayFromRecord());
-        assertEquals("Empty Day", dailyRecord.getDayFromRecord().getName());
-        assertNotNull(dailyRecord.getWater());
-        assertNotNull(dailyRecord.getMealList());
+        assertNotNull(dailyRecord.getWaterFromRecord());
+        assertNotNull(dailyRecord.getMealListFromRecord());
     }
 
     @Test
     public void logDay_validDay() {
         dailyRecord = new DailyRecord();
-        dailyRecord.logDay(validDay);
+        dailyRecord.logDayToRecord(validDay);
 
         assertEquals(validDay, dailyRecord.getDayFromRecord());
     }
@@ -66,15 +66,8 @@ public class DailyRecordTest {
     public void logDay_emptyDay() {
         dailyRecord = new DailyRecord();
         Day emptyDay = new Day("Empty Day");
-        dailyRecord.logDay(emptyDay);
+        dailyRecord.logDayToRecord(emptyDay);
         assertEquals(emptyDay, dailyRecord.getDayFromRecord());
-    }
-
-    @Test
-    public void logDay_nullDay() {
-        dailyRecord = new DailyRecord();
-        assertNotNull(dailyRecord.getDayFromRecord());
-        assertEquals(0, dailyRecord.getDayFromRecord().getExercisesCount());
     }
 
     @Test
@@ -82,9 +75,9 @@ public class DailyRecordTest {
         dailyRecord = new DailyRecord();
         dailyRecord.addMealToRecord(meal1);
         dailyRecord.addMealToRecord(meal2);
-        assertFalse(dailyRecord.getMealList().isEmpty());
-        assertEquals(2, dailyRecord.getMealList().getSize());
-        assertEquals("pasta", dailyRecord.getMealList().getMeals().get(1).getName());
+        assertFalse(dailyRecord.getMealListFromRecord().isEmpty());
+        assertEquals(2, dailyRecord.getMealListFromRecord().getSize());
+        assertEquals("pasta", dailyRecord.getMealListFromRecord().getMeals().get(1).getName());
     }
 
     @Test
@@ -105,8 +98,8 @@ public class DailyRecordTest {
         dailyRecord.addMealToRecord(meal1);
         dailyRecord.addMealToRecord(meal2);
         dailyRecord.deleteMealFromRecord(0);
-        assertEquals(1, dailyRecord.getMealList().getSize());
-        assertEquals("pasta", dailyRecord.getMealList().getMeals().get(0).getName());
+        assertEquals(1, dailyRecord.getMealListFromRecord().getSize());
+        assertEquals("pasta", dailyRecord.getMealListFromRecord().getMeals().get(0).getName());
     }
 
     @Test
@@ -128,9 +121,9 @@ public class DailyRecordTest {
         dailyRecord = new DailyRecord();
         dailyRecord.addWaterToRecord(100.0f);
         dailyRecord.addWaterToRecord(400.0f);
-        assertFalse(dailyRecord.getWater().isEmpty());
-        assertEquals(2, dailyRecord.getWater().getWaterList().size());
-        assertEquals(100.0f, dailyRecord.getWater().getWaterList().get(0));
+        assertFalse(dailyRecord.getWaterFromRecord().isEmpty());
+        assertEquals(2, dailyRecord.getWaterFromRecord().getWaterList().size());
+        assertEquals(100.0f, dailyRecord.getWaterFromRecord().getWaterList().get(0));
     }
 
     @Test
@@ -145,8 +138,8 @@ public class DailyRecordTest {
         dailyRecord.addWaterToRecord(100.0f);
         dailyRecord.addWaterToRecord(400.0f);
         dailyRecord.removeWaterFromRecord(0);
-        assertEquals(1, dailyRecord.getWater().getWaterList().size());
-        assertEquals(400.0f, dailyRecord.getWater().getWaterList().get(0));
+        assertEquals(1, dailyRecord.getWaterFromRecord().getWaterList().size());
+        assertEquals(400.0f, dailyRecord.getWaterFromRecord().getWaterList().get(0));
     }
 
     @Test
@@ -166,28 +159,20 @@ public class DailyRecordTest {
     @Test
     public void getDayFromRecord_initialDay() {
         dailyRecord = new DailyRecord();
-        assertNotNull(dailyRecord.getDayFromRecord());
-        assertEquals(0, dailyRecord.getDayFromRecord().getExercisesCount());
+        assertNull(dailyRecord.getDayFromRecord());
     }
 
     @Test
     public void getDayFromRecord_afterLogDay() {
         dailyRecord = new DailyRecord();
-        dailyRecord.logDay(validDay);
+        dailyRecord.logDayToRecord(validDay);
         assertEquals("validDay", dailyRecord.getDayFromRecord().getName());
-    }
-
-    @Test
-    public void getDayFromRecord_nullDay() {
-        dailyRecord = new DailyRecord();
-        Day day = dailyRecord.getDayFromRecord();
-        assertNotNull(day);
     }
 
     @Test
     public void getMealList_initialMealList() {
         dailyRecord = new DailyRecord();
-        MealList mealList = dailyRecord.getMealList();
+        MealList mealList = dailyRecord.getMealListFromRecord();
         assertNotNull(mealList);
         assertTrue(mealList.getMeals().isEmpty());
     }
@@ -197,7 +182,7 @@ public class DailyRecordTest {
         dailyRecord = new DailyRecord();
         dailyRecord.addMealToRecord(meal1);
         dailyRecord.addMealToRecord(meal2);
-        MealList mealList = dailyRecord.getMealList();
+        MealList mealList = dailyRecord.getMealListFromRecord();
         assertEquals("potato" , mealList.getMeals().get(0).getName());
         assertEquals("pasta", mealList.getMeals().get(1).getName());
     }
@@ -208,13 +193,13 @@ public class DailyRecordTest {
         dailyRecord.addMealToRecord(meal1);
         dailyRecord.addMealToRecord(meal2);
         dailyRecord.deleteMealFromRecord(0);
-        assertEquals(1, dailyRecord.getMealList().getSize());
+        assertEquals(1, dailyRecord.getMealListFromRecord().getSize());
     }
 
     @Test
     public void getWater_initialWater() {
         dailyRecord = new DailyRecord();
-        Water water = dailyRecord.getWater();
+        Water water = dailyRecord.getWaterFromRecord();
         assertNotNull(water);
         assertTrue(water.getWaterList().isEmpty());
     }
@@ -224,7 +209,7 @@ public class DailyRecordTest {
         dailyRecord = new DailyRecord();
         dailyRecord.addWaterToRecord(100.0f);
         dailyRecord.addWaterToRecord(400.0f);
-        Water water = dailyRecord.getWater();
+        Water water = dailyRecord.getWaterFromRecord();
         assertEquals(100.0f , water.getWaterList().get(0));
         assertEquals(400.0f , water.getWaterList().get(1));
     }
@@ -235,7 +220,7 @@ public class DailyRecordTest {
         dailyRecord.addWaterToRecord(100.0f);
         dailyRecord.addWaterToRecord(400.0f);
         dailyRecord.removeWaterFromRecord(0);
-        assertEquals(1, dailyRecord.getWater().getWaterList().size());
+        assertEquals(1, dailyRecord.getWaterFromRecord().getWaterList().size());
     }
 
     @Test
@@ -250,9 +235,9 @@ public class DailyRecordTest {
         when(mockWater.getWaterList()).thenReturn(new ArrayList<Float>());
         when(mockDay.getExercisesCount()).thenReturn(0);
 
-        doReturn(mockMealList).when(dailyRecord).getMealList();
+        doReturn(mockMealList).when(dailyRecord).getMealListFromRecord();
         doReturn(mockDay).when(dailyRecord).getDayFromRecord();
-        doReturn(mockWater).when(dailyRecord).getWater();
+        doReturn(mockWater).when(dailyRecord).getWaterFromRecord();
 
         String result = dailyRecord.toString();
 
@@ -282,7 +267,7 @@ public class DailyRecordTest {
     @Test
     public void toString_testDayToString() {
         dailyRecord = new DailyRecord();
-        dailyRecord.logDay(validDay);
+        dailyRecord.logDayToRecord(validDay);
         String result = dailyRecord.toString();
         assertFalse(result.contains("No Day"));
     }

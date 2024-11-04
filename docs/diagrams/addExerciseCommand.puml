@@ -1,30 +1,29 @@
 @startuml
-box "Logic" #c3c3ff
-participant "AddExerciseCommand" as AddExerciseCommand #cc88cc
-end box
+participant ":CreateExerciseCommand" as AddExerciseCommand #cc88cc
+participant ":ProgrammeList" as ProgrammeList #ffbb77
+participant ":Programme" as Programme #ffbb77
+participant ":Day" as Day #ffbb77
 
-box "Model" #ffb3b3
-participant "ProgrammeList" as ProgrammeList #ffbb77
-participant "Programme" as Programme #ffbb77
-participant "Day" as Day #ffbb77
-end box
 
-AddExerciseCommand -> ProgrammeList : retrieve Programme
+
+-> AddExerciseCommand : execute()
 activate AddExerciseCommand
+AddExerciseCommand -> ProgrammeList : getProgramme(programmeIndex)
 activate ProgrammeList
+ProgrammeList --> AddExerciseCommand : selected Programme
+deactivate ProgrammeList
 
-ProgrammeList -> Programme : locate specific Day
+AddExerciseCommand -> Programme : getDay(dayIndex)
 activate Programme
-
-Programme -> Day : add/remove Exercise
-activate Day
-
-Day --> Programme : added/removed Exercise
-deactivate Day
-
-Programme --> ProgrammeList : added/removed Exercise
+Programme --> AddExerciseCommand : selected Day
 deactivate Programme
 
-ProgrammeList --> AddExerciseCommand : added/removed Exercise
-deactivate ProgrammeList
+AddExerciseCommand -> Day: insertExercise(createdExercise)
+activate Day
+Day --> AddExerciseCommand: inserted Exercise
+deactivate Day
+
+
+<-- AddExerciseCommand
+deactivate AddExerciseCommand
 @enduml

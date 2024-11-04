@@ -1,3 +1,5 @@
+// @@author andreusxcarvalho
+
 package exceptions;
 
 /**

@@ -1,23 +1,25 @@
 @startuml
-box "Logic" #c3c3ff
-participant "AddDayCommand" as AddDayCommand #cc88cc
-end box
+participant ":CreateDayCommand" as CreateDayCommand #cc88cc
+participant ":ProgrammeList" as ProgrammeList #ffbb77
+participant ":Programme" as Programme #ffbb77
 
-box "Model" #ffb3b3
-participant "ProgrammeList" as ProgrammeList #ffbb77
-participant "Programme" as Programme #ffbb77
-end box
 
-AddDayCommand -> ProgrammeList : retrieve Programme
-activate AddDayCommand
+
+
+-> CreateDayCommand : execute()
+activate CreateDayCommand
+CreateDayCommand -> ProgrammeList : getProgramme(programmeIndex)
 activate ProgrammeList
 
-ProgrammeList -> Programme : add/remove Day
+ProgrammeList --> CreateDayCommand : selected Programme
+deactivate ProgrammeList
+
+CreateDayCommand -> Programme : insertDay(createdDay)
 activate Programme
 
-Programme --> ProgrammeList : added/removed Day
+Programme --> CreateDayCommand :  inserted day
 deactivate Programme
 
-ProgrammeList --> AddDayCommand : added/removed Day
-deactivate ProgrammeList
+<-- CreateDayCommand
+deactivate CreateDayCommand
 @enduml

@@ -1,0 +1,79 @@
+@startuml
+skinparam participant {
+    BackgroundColor #DFF6FF
+    BorderColor #0096C7
+    FontColor #023E8A
+    FontStyle bold
+}
+skinparam sequence {
+    ActorBorderColor #F28482
+    ActorBackgroundColor #F8AD9D
+    LifeLineBorderColor #6D6875
+    LifeLineBackgroundColor #B5838D
+    ParticipantBorderColor #457B9D
+    ParticipantBackgroundColor #CAF0F8
+    ArrowColor #023E8A
+    BoxBorderColor #495867
+    BoxBackgroundColor #B0C4DE
+}
+
+actor User
+participant "BuffBuddy" as BB
+participant "UI" as UI
+participant "Parser" as Parser
+participant "AddMealCommand" as AddCmd
+participant "History" as History
+participant "DailyRecord" as DailyRec
+participant "MealList" as MealList
+participant "Meal" as Meal
+
+User -> UI: Enter "meal add /n [mealName] /c [calories]"
+activate UI
+UI -> BB: Read command
+activate BB
+BB -> Parser: Parse command
+activate Parser
+
+Parser -> AddCmd: Create AddMealCommand
+deactivate Parser
+activate AddCmd
+
+AddCmd -> History: Get DailyRecord by date
+activate History
+
+alt DailyRecord exists
+  History -> AddCmd: Return existing DailyRecord
+else No DailyRecord exists
+  History -> DailyRec: Create new DailyRecord
+  activate DailyRec
+  DailyRec -> History: Add new DailyRecord to history
+  deactivate DailyRec
+  History -> AddCmd: Return new DailyRecord
+end
+deactivate History
+
+AddCmd -> DailyRec: Check if MealList exists
+activate DailyRec
+
+alt MealList exists
+  DailyRec -> MealList: Add meal to existing MealList
+  activate MealList
+else MealList does not exist
+  DailyRec -> MealList: Call MealList constructor (create new MealList)
+  activate MealList
+  MealList -> MealList: Add meal to new MealList
+end
+deactivate MealList
+DailyRec -> AddCmd: Confirm addition
+deactivate DailyRec
+
+AddCmd -> BB: Return CommandResult
+deactivate AddCmd
+destroy AddCmd
+
+BB -> UI: Show CommandResult
+deactivate BB
+
+UI -> User: Display success message
+deactivate UI
+@enduml

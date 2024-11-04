@@ -1,3 +1,4 @@
+// @@author TVageesan
 import command.Command;
 import command.CommandResult;
 import command.ExitCommand;
@@ -55,7 +56,7 @@ public class BuffBuddy {
             }
 
         } catch (Exception e) {
-            ui.showError(e);
+            ui.showMessage(e);
         }
     }
 }

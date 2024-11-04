@@ -1,9 +1,14 @@
+// @@author Atulteja
+
 package meal;
 
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Represents a meal with a name and calorie count.
+ */
 public class Meal {
 
     private static final Logger logger = Logger.getLogger(Meal.class.getName());
@@ -11,6 +16,13 @@ public class Meal {
     private int calories;
     private  String name;
 
+    /**
+     * Constructs a Meal with the specified name and calorie count.
+     *
+     * @param name     the name of the meal
+     * @param calories the calorie count of the meal
+     * @throws AssertionError if the name is null, empty, or if the calories are negative
+     */
     public Meal(String name, int calories) {
         assert name != null && !name.isEmpty() : "Meal name cannot be null or empty";
         assert calories >= 0 : "Calories cannot be negative";
@@ -47,6 +59,11 @@ public class Meal {
                 Objects.equals(name, meal.name);
     }
 
+    /**
+     * Overridden to return a string representation of the meal, including its name and calorie count.
+     *
+     * @return a string representation of the meal
+     */
     @Override
     public String toString() {
         return name + " | " + calories + "kcal";

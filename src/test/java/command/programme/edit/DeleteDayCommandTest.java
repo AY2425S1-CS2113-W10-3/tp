@@ -23,7 +23,7 @@ class DeleteDayCommandTest {
 
     private ProgrammeList programmeList;
     private Day day;
-    private DeleteDayCommand command;
+    private DeleteDayProgrammeCommand command;
 
     @BeforeEach
     void setUp() {
@@ -35,31 +35,31 @@ class DeleteDayCommandTest {
         programmeList.insertProgramme("Mock Programme", days);
 
         // Initialize DeleteDayCommand with valid IDs
-        command = new DeleteDayCommand(VALID_PROGRAMME_ID, VALID_DAY_ID);
+        command = new DeleteDayProgrammeCommand(VALID_PROGRAMME_ID, VALID_DAY_ID);
     }
 
     // Test for constructor with valid inputs
     @Test
     void constructor_initializesWithValidParameters() {
-        assertDoesNotThrow(() -> new DeleteDayCommand(VALID_PROGRAMME_ID, VALID_DAY_ID));
+        assertDoesNotThrow(() -> new DeleteDayProgrammeCommand(VALID_PROGRAMME_ID, VALID_DAY_ID));
     }
 
     // Edge case for constructor: Negative programme ID
     @Test
     void constructor_throwsAssertionErrorIfProgrammeIdIsNegative() {
-        assertThrows(AssertionError.class, () -> new DeleteDayCommand(INVALID_PROGRAMME_ID, VALID_DAY_ID));
+        assertThrows(AssertionError.class, () -> new DeleteDayProgrammeCommand(INVALID_PROGRAMME_ID, VALID_DAY_ID));
     }
 
     // Edge case for constructor: Negative day ID
     @Test
-    void constructor_throwsAssertionErrorIfDayIdIsNegative() {
-        assertThrows(AssertionError.class, () -> new DeleteDayCommand(VALID_PROGRAMME_ID, INVALID_DAY_ID));
+    void constructor_throwsAssertionErrorIfdayIndexIsNegative() {
+        assertThrows(AssertionError.class, () -> new DeleteDayProgrammeCommand(VALID_PROGRAMME_ID, INVALID_DAY_ID));
     }
 
     // Test for execute method: successfully deletes day and returns success message
     @Test
     void execute_deletesDayFromProgramme_returnsSuccessMessage() {
-        String expectedMessage = String.format(DeleteDayCommand.SUCCESS_MESSAGE_FORMAT, day);
+        String expectedMessage = String.format(DeleteDayProgrammeCommand.SUCCESS_MESSAGE_FORMAT, day);
         CommandResult expectedResult = new CommandResult(expectedMessage);
 
         CommandResult actualResult = command.execute(programmeList);
@@ -75,14 +75,18 @@ class DeleteDayCommandTest {
     // Edge case for execute: Nonexistent programme ID
     @Test
     void execute_throwsIndexOutOfBoundsIfProgrammeIdDoesNotExist() {
-        DeleteDayCommand invalidCommand = new DeleteDayCommand(OUT_OF_RANGE_PROGRAMME_ID, VALID_DAY_ID);
+        DeleteDayProgrammeCommand invalidCommand = new DeleteDayProgrammeCommand(
+                OUT_OF_RANGE_PROGRAMME_ID, VALID_DAY_ID)
+                ;
         assertThrows(IndexOutOfBoundsException.class, () -> invalidCommand.execute(programmeList));
     }
 
     // Edge case for execute: Nonexistent day ID within existing programme
     @Test
-    void execute_throwsIndexOutOfBoundsIfDayIdDoesNotExist() {
-        DeleteDayCommand invalidCommand = new DeleteDayCommand(VALID_PROGRAMME_ID, OUT_OF_RANGE_DAY_ID);
+    void execute_throwsIndexOutOfBoundsIfdayIndexDoesNotExist() {
+        DeleteDayProgrammeCommand invalidCommand = new DeleteDayProgrammeCommand(
+                VALID_PROGRAMME_ID, OUT_OF_RANGE_DAY_ID
+        );
         assertThrows(IndexOutOfBoundsException.class, () -> invalidCommand.execute(programmeList));
     }
 }

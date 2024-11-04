@@ -1,0 +1,19 @@
+@startuml
+
+abstract class HistoryCommand {
+    + execute(ProgrammeList, History): CommandResult
+}
+
+class WeeklySummaryCommand {
+    + execute(ProgrammeList, History): CommandResult
+}
+
+class ViewHistoryCommand {
+    - date: LocalDate
+    + execute(ProgrammeList, History): CommandResult
+}
+
+HistoryCommand <|-- WeeklySummaryCommand
+HistoryCommand <|-- ViewHistoryCommand
+
+@enduml

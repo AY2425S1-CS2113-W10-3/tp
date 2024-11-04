@@ -6,7 +6,7 @@ start
 if (command type) then (prog edit)
   if (subcommand type) then (edit day)
     :Execute day edit;
-  else (eidt exercise)
+  else (edit exercise)
     :Execute exercise edit;
   endif
   :Retrieve updated model;

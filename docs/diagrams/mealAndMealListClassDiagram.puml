@@ -1,0 +1,30 @@
+@startuml
+title Meal and MealList Class Diagram
+
+class Meal {
+    - calories : Integer
+    - name : String
+    + Meal(String name, int calories)
+    + getCalories() : Integer
+    + getName() : String
+    + equals(Object o) : boolean
+    + hashCode() : int
+    + toString() : String
+}
+
+class MealList {
+    - meals : ArrayList<Meal>
+    + MealList() : void
+    + isEmpty() : boolean
+    + getSize() : int
+    + addMeal(Meal meal) : void
+    + deleteMeal(int index) : Meal
+    + getMeals() : ArrayList<Meal>
+    + toString() : String
+    + equals(Object o) : boolean
+    + hashCode() : int
+}
+
+MealList "1" *-- "0..*" Meal : contains
+
+@enduml

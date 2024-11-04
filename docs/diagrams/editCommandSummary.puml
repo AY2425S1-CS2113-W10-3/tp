@@ -1,0 +1,41 @@
+@startuml
+    class EditProgrammeCommand {
+        <<abstract>>
+        #exerciseIndex: int
+        +EditProgrammeCommand(programmeIndex: int, dayIndex: int, exerciseIndex: int)
+        +EditProgrammeCommand(programmeIndex: int, dayIndex: int)
+        +EditProgrammeCommand(programmeIndex: int)
+        +execute(programmes: ProgrammeList): CommandResult
+    }
+
+    class CreateDayCommand {
+        # createdDay: Day
+        + CreateDayCommand(programmeIndex: int, createdDay: Day)
+        +execute(programmes: ProgrammeList): CommandResult
+    }
+    class CreateExerciseCommand {
+        # createdExercise: Exercise
+        + CreateExerciseCommand(programmeIndex: int, dayIndex: int, createdExercise: Exercise)
+        + execute(programmes: ProgrammeList): CommandResult
+    }
+    class DeleteDayCommand {
+        + DeleteDayCommand(programmeIndex: int, dayIndex: int)
+        + execute(programmes: ProgrammeList): CommandResult
+    }
+    class DeleteExerciseCommand {
+        + DeleteExerciseCommand(programmeIndex: int, dayIndex: int, exerciseIndex: int)
+        + execute(programmes: ProgrammeList): CommandResult
+    }
+    class EditExerciseCommand {
+        # update: ExerciseUpdate
+        + EditExerciseCommand(programmeIndex: int, dayIndex: int, exerciseIndex: int, update: ExerciseUpdate)
+        + execute(programmes: ProgrammeList): CommandResult
+    }
+
+    EditProgrammeCommand <|--- CreateDayCommand
+    EditProgrammeCommand <|--- CreateExerciseCommand
+    EditProgrammeCommand <|--- DeleteDayCommand
+    EditProgrammeCommand <|--- DeleteExerciseCommand
+    EditProgrammeCommand <|--- EditExerciseCommand
+
+@enduml

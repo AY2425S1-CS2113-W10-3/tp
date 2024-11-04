@@ -1,26 +1,61 @@
 @startuml
 actor User
-participant "Ui" as Ui #88cc88
-participant "BuffBuddy" as BuffBuddy #88cc88
-participant "Parser" as Parser #88bbff
-participant "CommandFactory" as CommandFactory #88bbff
-participant "ProgCommandFactory" as ProgCommandFactory #88bbff
-participant "Command" as Command #cc88cc
-participant "Model" as Model #ffbb77
-participant "CommandResult" as CommandResult #cc88cc
+participant ":Ui" as Ui #88cc88
+participant ":BuffBuddy" as BuffBuddy #88cc88
+participant ":Parser" as Parser #88bbff
+participant ":CommandFactory" as CommandFactory #88bbff
+participant ":ProgCommandFactory" as ProgCommandFactory #88bbff
+participant ":EditCommand" as Command #cc88cc
+participant ":Model" as Model #ffbb77
+participant ":CommandResult" as CommandResult #cc88cc
 
-User -> Ui : enter command "prog edit..."
-Ui -> BuffBuddy : send command String
-BuffBuddy -> Parser : parse(commandString)
 
-Parser -> CommandFactory : createCommand("prog", argumentString)
-CommandFactory -> ProgCommandFactory : parseEditCommand()
-ProgCommandFactory -> Command : specific edit command by flag
 
-Command -> Model : execute edit command\n(interact with Programme, Days, etc.)
-Model --> Command : return updated Model data
-Command -> CommandResult : create CommandResult
-CommandResult --> BuffBuddy : return CommandResult
-BuffBuddy -> Ui : send CommandResult
-Ui -> User : display success message
+
+
+User -> Ui : "prog edit..."
+activate Ui
+BuffBuddy -> Ui: readCommand()
+activate BuffBuddy
+Ui --> BuffBuddy : "prog edit..."
+
+BuffBuddy -> Parser : parse("prog edit...")
+activate Parser
+
+Parser -> CommandFactory : createCommand("prog", "edit...")
+deactivate Parser
+activate CommandFactory
+
+CommandFactory -> ProgCommandFactory : parse("edit",arguments)
+deactivate CommandFactory
+activate ProgCommandFactory
+
+
+ProgCommandFactory -> Command : createEditCommand(arguments)
+deactivate ProgCommandFactory
+
+activate Command
+BuffBuddy <-- Command
+
+BuffBuddy -> Command : execute()
+
+
+Command -> Model : interact with Model
+activate Model
+Command <-- Model: returned Data
+deactivate Model
+
+
+Command -> CommandResult: new CommandResult(message)
+
+deactivate Command
+activate CommandResult
+BuffBuddy <-- CommandResult : return CommandResult
+deactivate CommandResult
+BuffBuddy -> Ui : showMessage()
+deactivate BuffBuddy
+
+User <-- Ui
+deactivate Ui
+
 @enduml
